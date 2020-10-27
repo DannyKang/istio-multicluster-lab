@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [{
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::090952272468:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/CB9C82118FBE8AB64417E84D6965C86D"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.ap-northeast-2.amazonaws.com/id/CB9C82118FBE8AB64417E84D6965C86D:aud": "sts.amazonaws.com",
+          "oidc.eks.ap-northeast-2.amazonaws.com/id/CB9C82118FBE8AB64417E84D6965C86D:sub": "system:serviceaccount:sagemaker-k8s-operator-system:sagemaker-k8s-operator-default"
+        }
+      }
+    }]
+  }

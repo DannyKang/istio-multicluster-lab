@@ -1,0 +1,25 @@
+apiVersion: v1
+data:
+  mapRoles: |
+      - groups:
+        - system:bootstrappers
+        - system:nodes
+        rolearn: arn:aws:iam::090952272468:role/NodeInstanceRole
+        username: system:node:{{EC2PrivateDNSName}}
+      - groups:
+        - system:masters
+        rolearn: arn:aws:iam::090952272468:role/Inho-Lambda-Role
+        username: kubernetes-admin
+  mapUsers: |
+    - groups:
+      - system:masters
+      userarn: arn:aws:iam::090952272468:user/lab-admin
+      username: admin
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2020-10-19T05:31:37Z"
+  name: aws-auth
+  namespace: kube-system
+  resourceVersion: "1909951"
+  selfLink: /api/v1/namespaces/kube-system/configmaps/aws-auth
+  uid: e3d0fa38-67b7-45c8-93e6-f95d8459be35

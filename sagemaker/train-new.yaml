@@ -1,0 +1,52 @@
+apiVersion: sagemaker.aws.amazon.com/v1
+kind: TrainingJob
+metadata:
+  name: xgboost-mnist-new2
+spec:
+  roleArn: arn:aws:iam::090952272468:role/Inho-sagemaker-exec-role 
+  region: ap-northeast-2
+  algorithmSpecification:
+    trainingImage: 366743142698.dkr.ecr.ap-northeast-2.amazonaws.com/sagemaker-xgboost:1.2-1
+    trainingInputMode: File
+  outputDataConfig:
+    s3OutputPath: s3://sm-xgboost-example/xgboost-mnist/models/
+  inputDataConfig:
+    - channelName: train
+      dataSource:
+        s3DataSource:
+          s3DataType: S3Prefix
+          s3Uri: s3://sm-xgboost-example/xgboost-mnist/train/
+          s3DataDistributionType: FullyReplicated
+      contentType: text/csv
+      compressionType: None
+    - channelName: validation
+      dataSource:
+        s3DataSource:
+          s3DataType: S3Prefix
+          s3Uri: s3://sm-xgboost-example/xgboost-mnist/validation/
+          s3DataDistributionType: FullyReplicated
+      contentType: text/csv
+      compressionType: None
+  resourceConfig:
+    instanceCount: 1
+    instanceType: ml.m4.xlarge
+    volumeSizeInGB: 5
+  hyperParameters:
+    - name: max_depth
+      value: "5"
+    - name: eta
+      value: "0.2"
+    - name: gamma
+      value: "4"
+    - name: min_child_weight
+      value: "6"
+    - name: silent
+      value: "0"
+    - name: objective
+      value: multi:softmax
+    - name: num_class
+      value: "10"
+    - name: num_round
+      value: "10"
+  stoppingCondition:
+    maxRuntimeInSeconds: 86400
